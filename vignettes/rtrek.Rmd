@@ -1,0 +1,162 @@
+---
+title: "Introduction to rtrek"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to rtrek}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE, comment = "#>", message = FALSE, warning = FALSE, error = FALSE, tidy = TRUE
+)
+```
+
+The `rtrek` package provides datasets related to the Star Trek fictional universe and functions for working with those datasets. The package interfaces with Wikipedia, the Star Trek API (STAPI), Memory Alpha and Memory Beta to retrieve data, metadata and other information relating to Star Trek. It also contains local datasets covering a variety of topics such as Star Trek universe species data, geopolitical data, and datasets resulting from text mining analyses of Star Trek novels. This introduction provides a brief, example-driven overview of `rtrek`.
+
+## Local datasets
+
+Package datasets in `rtrek` are somewhat eclectic and currently limited. They will expand with further package development. To list all available package datasets with a short description, call `st_datasets`.
+
+```{r pkg_data}
+library(rtrek)
+st_datasets()
+```
+
+### Star Trek novels
+
+The `stBooksWP` dataset provides a moderately curated data frame of over `r nrow(stBooksWP)` Star Trek books published since the early days of the Original Series episode adaptations by James Blish up through the latest novels as of the most recent `rtrek` update. `stBooksWP` is not an exhaustive account, but it is sufficiently comprehensive, containing most published books listed on Wikipedia. Those not listed were those more difficult to web scrape such as small anthologies listed in footnotes rather than in table form online.
+
+```{r stBooksWP}
+stBooksWP
+```
+
+Some curation decisions were made in compiling the data frame for `rtrek` related to the inclusion of some metadata in addition to not being a completely exhaustive list. However, the master Wikipedia page for Star Trek literature can be browsed at any time. As if that were not easy enough, `rtrek` also offers a convenience function `st_book_series` to load the page in a browser tab auto-scrolled to a specific series of interest.
+
+In order to use this function effectively, first call it with no arguments. It returns a table of available series abbreviations.
+
+```{r st_book_series}
+st_book_series()
+```
+
+Then call it with a specific acronym ID and the page will load at the desired table entry.
+
+```{r st_book_series2, eval = FALSE}
+st_book_series("DS9")
+```
+
+This package data only graces the surface of Star Trek novels. A later section provides a brief introduction to Star Trek novel data compiled from text mining analyses of the actual book content. Unlike `stBooksWP`, which is limited to a metadata overview, these other datasets contain quantifiable variables much more suitable to interesting statistical analysis.
+
+### Spatial maps
+
+The `stTiles` data frame shows all available Star Trek-themed map tile sets along with metadata and attribution information. These map tiles can be used with the `leaflet` and `shiny` packages to make interactive maps situated in the Star Trek universe.
+
+```{r stTiles}
+stTiles
+```
+
+The list is scant at the moment, but more will come. One thing to keep in mind is these tile sets use a simple/non-geographical coordinate reference system (CRS). Clearly, they are not Earth-based, though they are spatial in more ways than one!
+
+Similar to game maps, there is a sense of space, but it is a simple Cartesian coordinate system and does not use geographic projections like you may be used to working with when analyzing spatial data or making Leaflet maps. This system is much simpler, but simple does not necessarily mean easy!
+
+Inspect `stGeo`:
+
+```{r stGeo}
+stGeo
+```
+
+This is another small dataset containing locations of key planets in the Star Trek universe. Notice the coordinates do not appear meaningful. There is no latitude and longitude. Instead there are row and column entries defining cells in a matrix. The matrix dimensions are defined by the pixel dimensions of source map that was used to create each tile set.
+
+The coordinates are also not consistent. Source maps differ significantly. Even if they had identical pixel dimensions, which they do not, each artist's visual rendering of the fictional universe will place locations differently in space. In this sense, every tile set has a unique coordinate reference system. For each new tile set produced, all locations of interest must be georeferenced again.
+
+This is not ideal, but it gets worse. Once you have locations' coordinates defined that map onto a particular tile set, the `leaflet` package does not work in these row and column grids. The `(col, row)` pairs need to be transformed or projected into Leaflet space. Fortunately, `rtrek` does this part for you with `tile_coords`. It takes a data frame like one returned by `st_tiles_data` with columns named `col` and `row`, as well as the name of an available Star Trek map tile set. It returns a data frame with new columns `x` and `y` that will map properly in a `leaflet` map built on that tile set.
+
+```{r tile_coords}
+id <- "galaxy1"
+(d <- st_tiles_data(id))
+(d <- tile_coords(d, id))
+```
+
+Here is an example using the `galaxy1` map with `leaflet`. The `st_tiles` function is used to link to the tile provider.
+
+```{r leaflet, fig.width=8.82, fig.height=5.5, tidy=FALSE}
+library(leaflet)
+tiles <- st_tiles("galaxy1")
+leaflet(d, options = leafletOptions(crs = leafletCRS("L.CRS.Simple"))) %>%
+  addTiles(tiles) %>% setView(108, -75, 2) %>%
+  addCircleMarkers(lng = ~x, lat = ~y, label = ~loc, color = "white", radius = 20)
+```
+
+<br/>
+
+The `stSpecies` dataset is just a small table that pairs species named with representative thumbnail avatars, mostly pulled from the Memory Alpha website. There is nothing map-related here, but these are used in this [Stellar Cartography](https://leonawicz.github.io/rtrek/articles/sc.html) example. It is similar to the Leaflet example above, but a bit more interesting, with markers to click on and information displays.
+
+In the course of the above map-related examples, a few functions have also been introduced. `st_tiles` takes an `id` argument that is mapped to the available tile sets in `stTiles` and returns the relevant URL. `st_tiles_data` takes the same `id` argument and returns a simple example data frame containing ancillary data related to the available locations from `stGeo`. The result is always the same except that the grid cells for locations change with respect to the chosen tile set. Finally, `tile_coords` can be applied to one of these data frames to add `x` and `y` columns for a CRS that Leaflet will understand.
+
+## Star Trek API
+
+To use the words of the developers, the [STAPI](http://stapi.co/) is
+
+*the first public Star Trek API, accessible via REST and SOAP. It's an open source project, that anyone can contribute to.*
+
+The API is highly functional. Please do not abuse the API with constant requests. Their pages suggest no more than one request per second, but I would suggest ten seconds between successive requests. The default anti-DDOS measures in `rtrek` limit requests to one per second. You can update this global `rtrek` setting with `options`, e.g. `options(rtrek_antiddos = 10)` for a minimum ten second wait between API calls to be an even better neighbor. `rtrek` will not permit faster requests. If set below one second, the option is ignored and a warning thrown when making any API call.
+
+### STAPI entities
+
+There a many fields, or entities, available in the API. The available IDs can be found in this table:
+
+```{r stapiEntities}
+stapiEntities
+```
+
+These ID values are passed to `stapi` to perform a search using the API. The other columns provide some information about the object returned from a search. All entity searches return tibble data frames. You can inspect or unnest the column names of each table returned from every available entity search so you can see beforehand what variables are associated with each entity.
+
+### Accessing the API
+
+Using `stapi` should be thought of as a three part process:
+
+*    Determine how many pages of results exist for a particular entity search.
+*    Only after taking care to do the previous step, perform the search to return search results.
+*    If satellite data is needed on a unique observation in the search results, call `stapi` one more time referencing the specific observation.
+
+To determine how many pages of results exist for a given search, set `page_count = TRUE`. The impact on the API will be equivalent to only searching a single page of results. One page contains metadata including the total number of pages. Nothing is returned in this "safe mode", but the total number of search results available is printed to the console.
+
+Searching movies only returns one page of results. However, there are a lot of characters in the Star Trek universe. Check the total pages available for character search.
+
+```{r stapi_safe}
+stapi("character", page_count = TRUE)
+```
+
+And that is with 100 results per page!
+
+The default `page = 1` only returns the first page. `page` can be a vector, e.g. `page = 1:62`. Results from multi-page searches are automatically combined into a single, constant data frame output. For the second call to `stapi`, return only page two here, which contains the character, Q (currently, pending future character database updates that may shift the indexing). In case that does change and Q is not always near the top of page two of the search results, the example further below hard-codes his unique/universal ID.
+
+```{r stapi_search}
+stapi("character", page = 2)
+```
+
+Character tables can be sparse. There are a lot of variables, many of which will contain missing data for rare, esoteric characters. Even for more popular characters about whom much more universe lore has been uncovered, it still takes dedicated nerds to enter all the data in a database.
+
+When a dataset contains a `uid` column, this can be used subsequently to extract a satellite dataset about that particular observation that was returned in the original search. First you used safe mode, then search mode, and now switch from search mode to extraction mode to obtain data about Q, specifically. All that is required to do this is pass Q's `uid` to `stapi` and call the function one last time. When `uid` is no longer `NULL`, `stapi` knows not to bother with a search and makes a different type of API call requesting information about the uniquely identified entry.
+
+```{r stapi_extract}
+Q <- "CHMA0000025118"
+Q <- stapi("character", uid = Q)
+
+library(dplyr)
+Q$episodes %>% select(uid, title, stardateFrom, stardateTo)
+```
+The data returned on Q is actually a large list, including multiple data frames. For simplicity only a piece of it is shown above.
+
+## Star Trek novel text mining
+
+This section will be continued in a future version of `rtrek`. For now what is available is a dataset `stBooks` that compliments the `stBooksWP` dataset seen earlier. `stBooks` has a similar number of metadata entries for Star Trek books and there is considerable overlap between the two datasets. However, there are also considerable differences in entries as well as formatting.
+
+This dataset represents metadata parsed, imperfectly but painstakingly thoroughly, from actual Star Trek books. Compared to `stBooksWP`, which represents a scraping of Wikipedia information on Star Trek books, `stBooks` contains several different fields, including more useful fields for analysts such as the number of words and chapters in a book.
+
+```{r stBooks}
+stBooks
+```
+
+Obviously, licensed book content itself cannot be shared as data, so it is not possible to provide capability in `rtrek` to enable analysts to perform their own unique text mining analyses on Star Trek novel corpura. However, future versions of `rtrek` will include more summary datasets that will aim to represent more intersting variables. Just a couple examples could be the relative frequency of popular characters' names per book, or a senitment analysis, or any other set of interesting metrics that could be used to inform suggested reading lists of various tiles or books by particular authors with a favored style or focus.
