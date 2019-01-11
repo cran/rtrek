@@ -1,3 +1,24 @@
+# rtrek 0.2.0
+
+* Added an initial version of an API function `memory_alpha` along with a collection of internal support functions for accessing Star Trek data from web portals available on the Memory Alpha website.
+    * Internal portal functions that return data from portal and portal category web pages, and which may run recursively when necessary to compile complete content over multiple pages, are memoized. 
+    * Functions like `ma_article`, which return article content from a terminal endpoint are not memoized.
+* Added `ma_search` function for using the Memory Alpha site search via URL parameters.
+* Added `ma_image` function for downloading source images from Memory Alpha and loading into R as ggplot objects.
+* Added an initial version of an API function `memory_beta` and other `mb_*` Memory Beta analogs to Memory Alpha website functions.
+* Added `mb_timeline` for working with data from the Memory Beta Chronology.
+* Added new datasets, mainly to timelines: `tlBooks`, `tlEvents`, `tlFootnotes`. Also added `stSeries` names and abbreviations table.
+* Renamed `st_book_series` and `stBooksWP` to `st_books_wiki` and `stBooksWiki`, respectively.
+* Updated tile set URLs.
+* Updated `stBooks` dataset. This data frame now has better formatting, greater consistency, duplicates removed, and contains more entries than before. It is still incomplete and imperfect, but much improved over the previous version.
+* Updated `stBooksWiki` dataset. Updated column names for consistency.
+* Updates the acronyms used in the package for consistency.
+* Update unit tests, added unit tests for Memory Alpha  and Memory Beta functions.
+* Updated function documentation.
+* Updated introduction vignette sections. Added new section relating to timeline datasets.
+* Added three new vignettes for each of the three API options: STAPI, Memory Alpha, and Memory Beta.
+* Minor bug fixes.
+
 # rtrek 0.1.0
 
 * Refactored some functions and datasets.
@@ -11,7 +32,7 @@
 
 * Remove remote `trekfont` now that it is available on CRAN.
 * Prepare GitHub accessible external datasets that serve package web pages.
-* Updated documentation, webste. Add to "fun pages" (R & R), which are only part of website "vignettes", not package vignettes.
+* Updated documentation, website. Add to "fun pages" (R & R), which are only part of website "vignettes", not package vignettes.
 * Minor fixes.
 
 # rtrek 0.0.8

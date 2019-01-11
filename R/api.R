@@ -27,12 +27,14 @@
 #'
 #' @examples
 #' library(dplyr)
-#' stapi("character", page_count = TRUE) # check first
-#' stapi("character", page = 2) %>% select(1:2)
-#' Q <- stapi("character", uid = "CHMA0000025118")
-#' Q$episodes %>% select(uid, title, stardateFrom, stardateTo)
+#' if(has_internet()){
+#'   stapi("character", page_count = TRUE) # check first
+#'   stapi("character", page = 2) %>% select(1:2)
+#'   Q <- stapi("character", uid = "CHMA0000025118")
+#'   Q$episodes %>% select(uid, title, stardateFrom, stardateTo)
+#' }
 stapi <- function(id, page = 1, uid = NULL, page_count = FALSE){
-  if(!id %in% rtrek::stapiEntities$id) stop("Invalid `id`.")
+  if(!id %in% rtrek::stapiEntities$id) stop("Invalid `id`.", call. = FALSE)
   .antiddos("stapi")
   type <- if(is.null(uid)) "/search?pageNumber=" else paste0("?uid=", uid)
   uri <- paste0("http://stapi.co/api/v1/rest/", id, type)
@@ -53,8 +55,8 @@ stapi <- function(id, page = 1, uid = NULL, page_count = FALSE){
   if(total_pages != 1 && (length(page) != 1 || page != 1)){
     include_page1 <- 1 %in% page
     page <- page[page != 1]
-    json <- purrr::map(page, ~jsonlite::flatten(
-      jsonlite::fromJSON(paste0(uri, .x, "&pageSize=100"))[[3]], recursive = TRUE)
+    json <- lapply(page, function(x) jsonlite::flatten(
+      jsonlite::fromJSON(paste0(uri, x, "&pageSize=100"))[[3]], recursive = TRUE)
     )
     if(include_page1) json <- c(list(json0), json)
     d <- dplyr::bind_rows(json)
@@ -81,4 +83,20 @@ stapi <- function(id, page = 1, uid = NULL, page_count = FALSE){
   }
   assign(x, Sys.time(), envir = rtrek_api_time)
   wait
+}
+
+#' Check for internet connection
+#'
+#' A basic check for internet connectivity.
+#'
+#' @param url character.
+#'
+#' @return logical
+#' @export
+#'
+#' @examples
+#' has_internet()
+has_internet <- function(url = "https://www.google.com"){
+  x <- try(suppressWarnings(readLines(url, n = 1)), silent = TRUE)
+  !inherits(x, "try-error")
 }

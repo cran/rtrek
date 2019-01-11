@@ -1,4 +1,5 @@
 ## ----setup, include=FALSE------------------------------------------------
+set.seed(1)
 knitr::opts_chunk$set(
   collapse = TRUE, comment = "#>", message = FALSE, warning = FALSE, error = FALSE, tidy = TRUE
 )
@@ -7,14 +8,20 @@ knitr::opts_chunk$set(
 library(rtrek)
 st_datasets()
 
-## ----stBooksWP-----------------------------------------------------------
-stBooksWP
+## ----stBooksWiki---------------------------------------------------------
+stBooksWiki
 
-## ----st_book_series------------------------------------------------------
-st_book_series()
+## ----st_books_wiki-------------------------------------------------------
+st_books_wiki()
 
-## ----st_book_series2, eval = FALSE---------------------------------------
-#  st_book_series("DS9")
+## ----st_books_wiki2, eval = FALSE----------------------------------------
+#  st_books_wiki("DS9")
+
+## ----stBooks-------------------------------------------------------------
+stBooks
+
+## ----stSeries------------------------------------------------------------
+stSeries
 
 ## ----stTiles-------------------------------------------------------------
 stTiles
@@ -34,6 +41,15 @@ leaflet(d, options = leafletOptions(crs = leafletCRS("L.CRS.Simple"))) %>%
   addTiles(tiles) %>% setView(108, -75, 2) %>%
   addCircleMarkers(lng = ~x, lat = ~y, label = ~loc, color = "white", radius = 20)
 
+## ----tlBooks-------------------------------------------------------------
+tlBooks
+
+## ----tlEvents------------------------------------------------------------
+tlEvents
+
+## ----tlFootnotes---------------------------------------------------------
+tlFootnotes
+
 ## ----stapiEntities-------------------------------------------------------
 stapiEntities
 
@@ -50,6 +66,6 @@ Q <- stapi("character", uid = Q)
 library(dplyr)
 Q$episodes %>% select(uid, title, stardateFrom, stardateTo)
 
-## ----stBooks-------------------------------------------------------------
+## ----stBooks2------------------------------------------------------------
 stBooks
 

@@ -12,5 +12,9 @@ test_that("tile_coords returns as expected", {
 })
 
 test_that("st_tiles returns as expected", {
-  expect_equal(st_tiles("galaxy1"), "https://leonawicz.github.io/tiles/data/st1/{z}/{x}/{y}.png")
+  expect_equal(st_tiles("galaxy1"), "https://leonawicz.github.io/tiles/st1/tiles/{z}/{x}/{y}.png")
+})
+
+test_that("st_tiles_data returns as expected", {
+  expect_is(st_tiles_data("galaxy1"), "tbl_df")
 })
