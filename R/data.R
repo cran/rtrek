@@ -40,8 +40,8 @@
 #' These columns include the number of characters, words and chapters in a book. There may be some irregularities or erroneous entries based on the imperfect methods use to compile the metadata,
 #' but it is overall an accurate dataset.
 #'
-#' The \code{nchap} column is largely accurate, but imperfect. Some entries suggest a book has hundreds of chapters, but the parser is not perfect at determining what constitutes a chapter.
-#' However, many of the books with high numbers of chapters are not erroneous but rather indicate a reference book rather than a novel, or an omnibus or anthology.
+#' The \code{nchap} column is largely accurate, but imperfect. Some entries suggest a book has an unusual number of chapters, but the parser is not perfect at determining what constitutes a chapter.
+#' However, many of the books with unusually high numbers of chapters are not erroneous but rather indicate a reference book, omnibus or anthology, as opposed to a standard novel.
 #'
 #' @format A data frame
 #' @seealso \code{\link{stSeries}}, \code{\link{stBooksWiki}}
@@ -118,6 +118,15 @@
 #' @seealso \code{\link{tlBooks}} \code{\link{tlEvents}}
 "tlFootnotes"
 
+#' Star Trek logos metadata.
+#'
+#' A data frame with 236 rows and 3 columns containing Star Trek logo metadata: category, description and URL. Logo artwork credited to Kris Trigwell.
+#' The logo images are served by st-minutiae.com for personal and fair use.
+#'
+#' @format A data frame
+#' @seealso \code{\link{st_logo}}
+"stLogos"
+
 #' Available datasets
 #'
 #' List the available datasets in the rtrek package.
@@ -128,10 +137,10 @@
 #' @examples
 #' st_datasets()
 st_datasets <- function(){
-  dplyr::data_frame(
+  dplyr::tibble(
     dataset = c("stGeo", "stSpecies", "stTiles",
                 "stBooks", "stBooksWiki", "stSeries",
-                "stapiEntities",
+                "stapiEntities", "stLogos",
                 "tlBooks", "tlEvents", "tlFootnotes"),
     description = c("Map tile set locations of interest.",
                     "Basic intelligent species data.",
@@ -140,6 +149,7 @@ st_datasets <- function(){
                     "Star Trek novel metadata from Wikipedia.",
                     "Names and acronyms of Star Trek series",
                     "Star Trek API (STAPI) categories",
+                    "Metadata for various Star Trek logos",
                     "Novel-based timeline dataset",
                     "Event-based timeline dataset",
                     "Timeline dataset footnotes"))

@@ -4,8 +4,12 @@
 \alias{ma_article}
 \title{Read Memory Alpha article}
 \usage{
-ma_article(url, content_format = c("xml", "character"),
-  content_nodes = c("h2", "h3", "p", "b", "ul"), browse = FALSE)
+ma_article(
+  url,
+  content_format = c("xml", "character"),
+  content_nodes = c("h2", "h3", "p", "b", "ul"),
+  browse = FALSE
+)
 }
 \arguments{
 \item{url}{character, article URL. Expects package-style short URL. See examples.}
@@ -26,5 +30,5 @@ Read Memory Alpha article content and metadata.
 Article content is returned in a nested, tidy data frame.
 }
 \examples{
-\dontrun{ma_article("Azetbur")}
+\donttest{ma_article("Azetbur")}
 }

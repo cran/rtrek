@@ -1,3 +1,20 @@
+# rtrek 0.2.5
+
+* Added `st_transcripts` for importing datasets based on episode and movie transcripts containing metadata and variables for analysis of scenes, character presence, dialog, sentiment.
+* Added basic ggplot2 themes.
+* Added `stLogos` metadata dataset and related `st_logo` function.
+* Minor bug fixes and documentation updates.
+
+# rtrek 0.2.2
+
+* Minor updates related to dplyr/tibble.
+* Documentation updates.
+
+# rtrek 0.2.1
+
+* Fixed errors in `stBooks` dataset where the number of words per book was calculated incorrectly.
+* Documentation updates.
+
 # rtrek 0.2.0
 
 * Added an initial version of an API function `memory_alpha` along with a collection of internal support functions for accessing Star Trek data from web portals available on the Memory Alpha website.
@@ -55,7 +72,7 @@
 # rtrek 0.0.6
 
 * Added initial introduction vignette content.
-* Added anti-DDOS measures for API calls.
+* Added anti-DOS measures for API calls.
 * Minor fixes.
 * Updated unit tests.
 * Updated readme.

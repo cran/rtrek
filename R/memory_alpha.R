@@ -53,10 +53,10 @@
 #'
 #' @examples
 #' memory_alpha("portals") # show available portals
-#' if(has_internet()){
-#'   memory_alpha("people") # show portal categories for People portal
-#'   memory_alpha("people/Klingons") # show people in Klingons subcategory
-#'   memory_alpha("people/Klingons/Worf") # return terminal article content
+#' \donttest{
+#' memory_alpha("people") # show portal categories for People portal
+#' memory_alpha("people/Klingons") # show people in Klingons subcategory
+#' memory_alpha("people/Klingons/Worf") # return terminal article content
 #' }
 memory_alpha <- function(endpoint){
   x <- .ma_portals
@@ -91,12 +91,12 @@ ma_portal_df <- function(portal, nodes = c("table", "span, a"), start_node_index
     trimws(as.character(x))
   }
   if(subgroups){
-    d <- purrr::map2(x1, x2, ~dplyr::data_frame(
+    d <- purrr::map2(x1, x2, ~dplyr::tibble(
       id = .x[-1], url = .y[-1], group = trimws(.x[1]), subgroup = .f(.x, .y)[-1]) %>%
         tidyr::fill(.data[["subgroup"]]) %>% dplyr::filter(!is.na(.data[["url"]]))
     ) %>% dplyr::bind_rows()
   } else {
-    d <- purrr::map2(x1, x2, ~dplyr::data_frame(
+    d <- purrr::map2(x1, x2, ~dplyr::tibble(
       id = .x, url = .y, group = .f(.x, .y)) %>%
         tidyr::fill(.data[["group"]]) %>% dplyr::filter(!is.na(.data[["url"]]))
     ) %>% dplyr::bind_rows()
@@ -153,7 +153,7 @@ ma_portal_technology <- function(nodes = c("h2, table", "span, b, a"), start_nod
 #' @export
 #'
 #' @examples
-#' \dontrun{ma_article("Azetbur")}
+#' \donttest{ma_article("Azetbur")}
 ma_article <- function(url, content_format = c("xml", "character"),
                        content_nodes = c("h2", "h3", "p", "b", "ul"), browse = FALSE){
   content_format <- match.arg(content_format)
@@ -169,7 +169,7 @@ ma_article <- function(url, content_format = c("xml", "character"),
   content <- x[which(rvest::html_name(x) %in% content_nodes)]
   if(content_format == "character") content <- gsub(" Edit$", "", ma_text(content))
   if(browse) utils::browseURL(url)
-  dplyr::data_frame(title = title, content = list(content), metadata = list(aside), categories = list(cats))
+  dplyr::tibble(title = title, content = list(content), metadata = list(aside), categories = list(cats))
 }
 
 #' Memory Alpha site search
@@ -188,7 +188,7 @@ ma_article <- function(url, content_format = c("xml", "character"),
 #' @export
 #'
 #' @examples
-#' if(has_internet()) ma_search("Worf")
+#' \donttest{ma_search("Worf")}
 ma_search <- function(text, browse = FALSE){
   url <- paste0(ma_base_add("Special:Search?query="), gsub("\\s+", "+", text))
   x <- xml2::read_html(url) %>% rvest::html_node(".Results")
@@ -198,7 +198,7 @@ ma_search <- function(text, browse = FALSE){
   text <- rvest::html_nodes(x, "article") %>% ma_text() %>% strsplit("(\n|\t)+") %>%
     sapply("[", 3)
   if(browse) utils::browseURL(url)
-  dplyr::data_frame(title = title, text = text, url = url2)
+  dplyr::tibble(title = title, text = text, url = url2)
 }
 
 #' Memory Alpha images

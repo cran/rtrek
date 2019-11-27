@@ -59,11 +59,11 @@
 #' @examples
 #' memory_beta("portals") # show available portals
 #' endpoint <- "characters/Characters by races and cultures/Klingonoids/Klingons"
-#' if(has_internet()){
-#'   x <- memory_beta(endpoint)
-#'   x <- x[grep("Worf", x$Klingons), ]
-#'   x
-#'   memory_beta(paste0(endpoint, "/Worf, son of Mogh")) # return terminal article content
+#' \donttest{
+#' x <- memory_beta(endpoint)
+#' x <- x[grep("Worf", x$Klingons), ]
+#' x
+#' memory_beta(paste0(endpoint, "/Worf, son of Mogh")) # return terminal article content
 #' }
 memory_beta <- function(endpoint){
   x <- .mb_portals
@@ -94,7 +94,7 @@ memory_beta <- function(endpoint){
 #' @export
 #'
 #' @examples
-#' \dontrun{mb_article("Azetbur")}
+#' \donttest{mb_article("Azetbur")}
 mb_article <- function(url, content_format = c("xml", "character"),
                        content_nodes = c("h2", "h3", "h4", "p", "b", "ul", "dl", "table"), browse = FALSE){
   content_format <- match.arg(content_format)
@@ -110,7 +110,7 @@ mb_article <- function(url, content_format = c("xml", "character"),
   content <- x[which(rvest::html_name(x) %in% content_nodes)]
   if(content_format == "character") content <- gsub("(.*[ A-Za-z])(Edit$)", "\\1", mb_text(content))
   if(browse) utils::browseURL(url)
-  dplyr::data_frame(title = title, content = list(content), metadata = list(aside), categories = list(cats))
+  dplyr::tibble(title = title, content = list(content), metadata = list(aside), categories = list(cats))
 }
 
 #' Memory Beta site search
@@ -129,7 +129,7 @@ mb_article <- function(url, content_format = c("xml", "character"),
 #' @export
 #'
 #' @examples
-#' if(has_internet()) mb_search("Worf")
+#' \donttest{mb_search("Worf")}
 mb_search <- function(text, browse = FALSE){
   url <- paste0(mb_base_add("Special:Search?query="), gsub("\\s+", "+", text))
   x <- xml2::read_html(url) %>% rvest::html_node(".Results")
@@ -139,7 +139,7 @@ mb_search <- function(text, browse = FALSE){
   text <- rvest::html_nodes(x, "article") %>% mb_text() %>% strsplit("(\n|\t)+") %>%
     sapply("[", 3)
   if(browse) utils::browseURL(url)
-  dplyr::data_frame(title = title, text = text, url = url2)
+  dplyr::tibble(title = title, text = text, url = url2)
 }
 
 #' Memory Beta images

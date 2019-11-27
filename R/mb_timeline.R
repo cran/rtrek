@@ -12,7 +12,7 @@
 #' \code{x = "main"} will pull from the main part of the timeline, 1900 - 2499. \code{x = "complete"} combines past, main, and future in order.
 #'
 #' The distant past and future have few entries, and thus few pages. However, both of these last two options, \code{"main"} and \code{complete},
-#' must download a large number of pages. For this reason, \code{rtrek} employs anti-DDOS measures to prevent an unwitting user from making too many requests too quickly from Memory Beta.
+#' must download a large number of pages. For this reason, \code{rtrek} employs anti-DOS measures to prevent an unwitting user from making too many requests too quickly from Memory Beta.
 #' The function would otherwise be far faster. However, to be a friendly neighbor in the cosmos, \code{rtrek} enforces a minimum one-second wait between timeline requests.
 #' This can lead to downloading the full timeline to take ten minutes or so even if you have a fast connection; most of the time it takes is spent waiting patiently.
 #'
@@ -26,7 +26,7 @@
 #' @export
 #'
 #' @examples
-#' if(has_internet()) mb_timeline(2360)
+#' \donttest{mb_timeline(2360)}
 #' \dontrun{
 #' mb_timeline("2360s")
 #' mb_timeline("past")
@@ -109,7 +109,7 @@ mb_tl_by_decade_year <- function(min = "1900s", max = "2490s"){
 }
 
 mb_tl_safe_read <- function(url){
-  .antiddos("mbtl")
+  .antidos("mbtl")
   cat(url, "\n")
   x <- xml2::read_html(mb_base_add(url))
   assign("mbtl", Sys.time(), envir = rtrek_api_time)
@@ -152,7 +152,7 @@ decade_year_pages <- memoise::memoise(decade_year_pages)
     ids <- ids[1:(idx - 1)]
   }
 
-  d <- tibble::data_frame(period = gsub("_", " ", url), id = ids) %>%
+  d <- tibble::tibble(period = gsub("_", " ", url), id = ids) %>%
     tidyr::fill(!!"id")
   idx <- !grepl("^cite|^Connections|^Appendices|^References|^External|^toc$", d$id)
   d <- dplyr::filter(d, idx)
@@ -240,7 +240,7 @@ decade_year_pages <- memoise::memoise(decade_year_pages)
     x <- rvest::html_nodes(.x, "small > b") %>% mb_text()
     ifelse(length(x), x, as.character(NA))
   })
-  tibble::data_frame(title = title_lab, title_url = title_url, colleciton = ms_lab, collection_url = ms_url,
+  tibble::tibble(title = title_lab, title_url = title_url, colleciton = ms_lab, collection_url = ms_url,
                      section = section, context = context)
 }
 
