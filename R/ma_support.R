@@ -6,7 +6,7 @@
 
 ma_portal_url <- function(id) .ma_portals$url[.ma_portals$id == id]
 
-ma_base_url <- "http://memory-alpha.wikia.com/wiki"
+ma_base_url <- "https://memory-alpha.fandom.com/wiki"
 
 ma_base_add <- function(x) file.path(ma_base_url, x)
 
@@ -85,7 +85,8 @@ ma_article_categories <- function(x){
 }
 
 ma_article_aside <- function(x){
-  idx <- which(rvest::html_name(x) == "aside")
+  x <- rvest::html_children(x)
+  idx <- which(rvest::html_name(x)  == "aside")
   if(!length(idx)) return()
   x <- x[[idx[1]]] %>% rvest::html_children()
   img <- .ma_aside_image(x)

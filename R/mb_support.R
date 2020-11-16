@@ -5,7 +5,7 @@
                             "Materials_and_substances", "Politics", "Science", "Starships", "Technology", "Timeline"))
 )
 
-mb_base_url <- "http://memory-beta.wikia.com/wiki"
+mb_base_url <- "https://memory-beta.fandom.com/wiki"
 
 mb_base_add <- function(x) file.path(mb_base_url, x)
 
@@ -69,6 +69,7 @@ mb_article_categories <- function(x){
 }
 
 mb_article_aside <- function(x){
+  x <- rvest::html_children(x)
   idx <- which(rvest::html_name(x) == "aside")
   if(!length(idx)) return()
   x <- x[[idx[1]]] %>% rvest::html_children()

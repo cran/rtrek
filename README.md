@@ -3,14 +3,14 @@
 
 # rtrek <img src="man/figures/logo.png" style="margin-left:10px;margin-bottom:5px;" width="120" align="right">
 
-**Author:** [Matthew Leonawicz](https://leonawicz.github.io/blog/)
+**Author:** [Matthew Leonawicz](https://github.com/leonawicz)
 <a href="https://orcid.org/0000-0001-9452-2771" target="orcid.widget">
 <image class="orcid" src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" height="16"></a>
 <br/> **License:** [MIT](https://opensource.org/licenses/MIT)<br/>
 
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
-developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
+developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/)
 [![Travis-CI Build
 Status](https://travis-ci.org/leonawicz/rtrek.svg?branch=master)](https://travis-ci.org/leonawicz/rtrek)
 [![AppVeyor Build
@@ -25,14 +25,12 @@ downloads](http://cranlogs.r-pkg.org/badges/grand-total/rtrek)](https://cran.r-p
 [![Github
 Stars](https://img.shields.io/github/stars/leonawicz/rtrek.svg?style=social&label=Github)](https://github.com/leonawicz/rtrek)
 
-[![Donate](https://img.shields.io/badge/Donate-Buy%20me%20a%20coffee-yellowgreen.svg)](https://ko-fi.com/leonawicz)
-
 The `rtrek` package provides datasets related to the Star Trek fictional
 universe and functions for working with those datasets. It interfaces
 with the [Star Trek API](http://stapi.co/) (STAPI), [Memory
-Alpha](http://memory-alpha.wikia.com/) and [Memory
-Beta](http://memory-beta.wikia.com/) to retrieve data, metadata and
-other information relating to Star Trek.
+Alpha](https://memory-alpha.fandom.com/wiki/Portal:Main) and [Memory
+Beta](https://memory-beta.fandom.com/wiki/Main_Page) to retrieve data,
+metadata and other information relating to Star Trek.
 
 The package also contains several local datasets covering a variety of
 topics such as Star Trek timeline data, universe species data and
@@ -144,7 +142,7 @@ x
 #> # A tibble: 1 x 4
 #>   title content    metadata          categories       
 #>   <chr> <list>     <list>            <list>           
-#> 1 Spock <xml_ndst> <tibble [1 x 18]> <tibble [14 x 2]>
+#> 1 Spock <xml_ndst> <tibble [1 x 19]> <tibble [15 x 2]>
 x$metadata[[1]]$Born
 #> [1] "January 6, 2230 (stardate 2230.06)|ShiKahr, Vulcan"
 ```
@@ -169,16 +167,21 @@ mb_timeline(2230)
 #> 
 #> $stories
 #> # A tibble: 5 x 11
-#>   title           title_url         colleciton   collection_url  section       context series      date     media     notes                                  image_url       
-#>   <chr>           <chr>             <chr>        <chr>           <chr>         <chr>   <chr>       <chr>    <chr>     <chr>                                  <chr>           
-#> 1 Burning Dreams  Burning_Dreams    <NA>         <NA>            Chapters 4 &~ <NA>    The Origin~ 2230     novel     <NA>                                   File:BurningDre~
-#> 2 Star Trek V: T~ Star_Trek_V:_The~ <NA>         <NA>            Chapter 14    <NA>    The Origin~ 2230     movie no~ <NA>                                   File:TrekV.jpg  
-#> 3 IDW Star Trek,~ IDW_Star_Trek,_I~ Star Trek (~ Star_Trek_(IDW) 2230 flashba~ <NA>    The Origin~ 2230     comic     Flashback to USS Kelvin and Keenser's~ File:IDW_TOS_14~
-#> 4 Star Trek       Star_Trek_(2009)  <NA>         <NA>            Chapter 1 (s~ <NA>    The Origin~ 2230     movie no~ Depiction of Spock's birth, date take~ File:Star_Trek_~
-#> 5 Sarek           Sarek_(novel)     <NA>         <NA>            Chapter 5     <NA>    The Origin~ 12 Nove~ novel     <NA>                                   File:Sarek_nove~
+#>   title           title_url          colleciton   collection_url  section       context series     date      media     notes                                   image_url       
+#>   <chr>           <chr>              <chr>        <chr>           <chr>         <chr>   <chr>      <chr>     <chr>     <chr>                                   <chr>           
+#> 1 Burning Dreams  Burning_Dreams     <NA>         <NA>            Chapters 4 &~ <NA>    The Origi~ 2230      novel     <NA>                                    File:BurningDre~
+#> 2 Star Trek V: T~ Star_Trek_V:_The_~ <NA>         <NA>            Chapter 14    <NA>    The Origi~ 2230      movie no~ <NA>                                    File:TrekV.jpg  
+#> 3 IDW Star Trek,~ IDW_Star_Trek,_Is~ Star Trek (~ Star_Trek_(IDW) 2230 flashba~ <NA>    The Origi~ 2230      comic     Flashback to USS Kelvin and Keenser's ~ File:IDW_TOS_14~
+#> 4 Star Trek       Star_Trek_(2009)   <NA>         <NA>            Chapter 1 (s~ <NA>    The Origi~ 2230      movie no~ Depiction of Spock's birth, date taken~ File:Star_Trek_~
+#> 5 Sarek           Sarek_(novel)      <NA>         <NA>            Chapter 5     <NA>    The Origi~ 12 Novem~ novel     <NA>                                    File:Sarek_nove~
 ```
 
 Live long and prosper.
+
+## Reference
+
+[Complete package reference and function
+documentation](https://leonawicz.github.io/rtrek/)
 
 ## Packages in the trekverse
 
@@ -201,6 +204,32 @@ Trek package
 
 Datasets related to Star Trek, API wrappers to external data sources,
 and more.
+
+</div>
+
+</div>
+
+<br/>
+
+<div class="row">
+
+<div class="col-sm-2">
+
+<a href="https://github.com/leonawicz/lcars"><img src="https://raw.githubusercontent.com/leonawicz/lcars/master/man/figures/logo.png" style="margin-right:20px;margin-bottom:0;" width="60" align="left"></a>
+
+</div>
+
+<div class="col-sm-10">
+
+<h4 style="padding:30px 0 0 0;margin-top:5px;margin-bottom:5px;">
+
+<a href="https://github.com/leonawicz/lcars">lcars</a>: LCARS aesthetic
+for Shiny
+
+</h4>
+
+Create Shiny apps based on the Library Computer Access/Retrieval System
+(LCARS).
 
 </div>
 
@@ -257,11 +286,26 @@ True (Trek) type fonts to style your Star Trek themed graphics text.
 
 </div>
 
------
+<br>
 
-*If you enjoy my R community contributions, consider* ***[buying me a
-coffee in Ko-fi](https://ko-fi.com/leonawicz)*** *so I can keep
-developing and maintaining this and other packages :)*
+## Citation
+
+Matthew Leonawicz (2020). rtrek: Datasets and Functions Relating to Star
+Trek. R package version 0.3.2.
+<https://CRAN.R-project.org/package=rtrek>
+
+## Contribute
+
+Contributions are welcome. Contribute through GitHub via pull request.
+Please create an issue first if it is regarding any substantive feature
+add or change.
+
+If you enjoy my open source R community contributions, please consider a
+donation :).
+
+  - [Buy me a coffee in Ko-fi](https://ko-fi.com/leonawicz)
+  - `leonawicz.crypto`
+  - `mfl$payid.crypto.com`
 
 -----
 
