@@ -1,7 +1,7 @@
-1529c1b906260bb6a7e9c1f410c09e80 *DESCRIPTION
+fe809644f39fab0edded56ec813fd2a5 *DESCRIPTION
 4e5cb40b14f9f1ff7e0bc56881b9f5bf *LICENSE
 bb77e7176f071f4e6adbe5e32ce0d96f *NAMESPACE
-43be8d69385a7e151d2f40642d59d9e7 *NEWS.md
+1cdee25b39a3c7371967a8cbcd91fa06 *NEWS.md
 9a086f3770bbda4e6437720aa8528a16 *R/api.R
 14515ca3bb2ae33a4b4b8e1ae8761261 *R/data.R
 565a82f4790aeea2de5f144c8988844a *R/fonts.R
@@ -9,8 +9,8 @@ bb77e7176f071f4e6adbe5e32ce0d96f *NAMESPACE
 ade5c945c061b62a262be34ee22dd7b6 *R/ma_support.R
 473be1f583a6b5e119288e3feaf22ef0 *R/mb_support.R
 d086fd116e73ef0216c093a4ba6aa51b *R/mb_timeline.R
-d7e85518be81d4fa7f69abc05f36b846 *R/memory_alpha.R
-6851e26d40286a27656c0f929de385ea *R/memory_beta.R
+dc6e42b707a984801741de5fc85e62cd *R/memory_alpha.R
+4ed53778d9396a55ac8d2f89949c4db6 *R/memory_beta.R
 09dcbd6fb822adde40a79491ae8b2f2b *R/novels.R
 334f9504a8b2f9766c2c079250683fa5 *R/rtrek.R
 152ee8c803c895062be61ab41de22b1a *R/sysdata.rda
@@ -18,7 +18,7 @@ d7e85518be81d4fa7f69abc05f36b846 *R/memory_alpha.R
 d2fe0c0f093a5e57ddb988895f9552e8 *R/tiles.R
 5a9b01a807b0a7a87cd350e12537e508 *R/transcripts.R
 1b448decbcc7cd354f14d4efaded6ce7 *R/zzz.R
-eb4abb69528e73602b919c6629fc33a5 *README.md
+94e5d1e6f41052b80e2987c5c31185bc *README.md
 f5d60fbe46d076befdd3256ad2fd33aa *data/stBooks.rda
 9151d63772b9bbca0c7dec893afdb9e2 *data/stGeo.rda
 dbacef1d0eed03a7d343449f83a77ccf *data/stLogos.rda
