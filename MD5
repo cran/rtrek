@@ -1,7 +1,7 @@
-947e51336146fc1607aaf81af4f35a5c *DESCRIPTION
+db04b2d7ad8c3971df84891af1d29713 *DESCRIPTION
 4e5cb40b14f9f1ff7e0bc56881b9f5bf *LICENSE
 6513323c4a036858d63a4b3cda75ab00 *NAMESPACE
-e5d5f27dcc17d21d2c9b8dadecaa6e18 *NEWS.md
+2b6be73a3a57e613a3ca35dca9bb380d *NEWS.md
 b460f6e5a2c0f259e6b601736a6b961d *R/api.R
 e6cad9c9b8d7d5eddb1c1806d08f909a *R/data.R
 8aac83904d7dd88f631311ad04843ebd *R/fonts.R
@@ -18,7 +18,7 @@ ea90ba97d91215c4330b23ba804a4eef *R/novels.R
 b82bf6bf0dc194f203f67789e649e5b1 *R/tiles.R
 eb02a04c4ded66f092473d1a7ad79d6a *R/transcripts.R
 1b448decbcc7cd354f14d4efaded6ce7 *R/zzz.R
-66ec28c86db0054499ee0b41e3986533 *README.md
+1bd93695e0ac7f1e6d07a725cf90651f *README.md
 f5d60fbe46d076befdd3256ad2fd33aa *data/stBooks.rda
 c0b0a0e828ea49cd14f00db898fcc55e *data/stGeo.rda
 e153acaa5731ac55c7558914509192de *data/stLogos.rda
